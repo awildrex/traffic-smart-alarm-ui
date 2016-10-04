@@ -1,0 +1,16 @@
+[
+	{
+		"id": 1,
+		"username": "test",
+		"password": "testwee",
+		"role": "USER",
+		"active": true
+	},
+	{
+		"id": 2,
+		"username": "test2",
+		"password": "terere",
+		"role": "ADMIN",
+		"active": false
+	}
+]

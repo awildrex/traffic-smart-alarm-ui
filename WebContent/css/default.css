@@ -1,0 +1,124 @@
+@CHARSET "UTF-8";
+body{
+	margin: 0px;
+	padding: 0px;
+}
+
+#footer {
+  	bottom: 0;
+  	left: 0;
+  	
+  	background: rgba(0,0,0,.8);
+  	height:40px;
+  	width:800px;
+  	display: flex;
+    align-items: center;
+}
+
+.footerDiv{
+	width:25%;
+}
+
+#header{
+	position:fixed;
+	background:red;
+	width:100%;
+	height:50px;
+}
+
+#clock{
+	font-size:6rem;
+	font-weight:bold;
+	font-family: Big Caslon,Book Antiqua,Palatino Linotype,Georgia,serif; 
+	width:100%;
+	text-align:center;
+}
+
+#content{
+	padding-top:55px;
+	width:100%;
+}
+
+#temp{
+	margin: 0px auto;
+	width:850px;
+	max-width:90%;
+}
+
+.menu{
+	padding-left:10px;
+	padding-top: 10px;
+	padding-bottom:5px;
+}
+
+.menu:hover {
+	cursor:pointer;
+}
+
+.menuLines{
+	width:40px;
+	height:7px;
+	border-radius: 4px;
+	background-color:#fff;
+	margin-bottom:4px;
+}
+
+.menuContent {
+	padding-top:50px;
+	display: table-cell;
+	width:100%;
+	height:100%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.menuContentdiv {
+	margin-top:5%;
+	margin-left:12%
+}
+
+.floatLeft{
+ 	float:left;
+}
+
+.floatRight{
+	float:right;
+}	
+
+.marginRight10{
+	margin-right:10px
+}
+
+.menuButton{
+	background-color:red;
+	border-radius: 20px;
+	width:250px;
+	height:75px;
+	font-size:3rem;
+	display: table-cell; 
+	vertical-align: middle;
+	text-align:center;
+}
+
+.menuButton:hover{
+	cursor:pointer;
+	box-shadow: 8px 8px 5px #888888;
+}
+
+.button{
+	cursor:pointer;
+}
+
+
+#weatherIcon{
+	
+}
+
+
+.inputSpan {
+	font-size:2rem;
+}
+
+.hidden{
+	display:none;
+}

@@ -1,0 +1,13 @@
+[{
+	"id": 1,
+	"active": true,
+	"name": "master_bedroom",
+	"description": "alarm clock in master bedroom",
+	"location": "555 Front St, Wayne PA 19087"
+}, {
+	"id": 2,
+	"active": true,
+	"name": "guestroom",
+	"description": "guest room alarm clock",
+	"location": "555 Front St, Wayne PA 19087"
+}]

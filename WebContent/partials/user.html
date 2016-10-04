@@ -1,0 +1,42 @@
+<div id="list" style="width:100%;">
+	<table id="tblUsers" style="width:50%; margin-left:25%;">
+		<tr>
+			<td></td>
+			<td>Username</td>
+			<td>Role</td>
+			<td>Active</td>
+		</tr>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+<div id="edit" class="hidden" style="width:100%;">
+	<div style="width:100%;">
+		<span class="inputSpan">Username:</span> <input type="text" id="txtUserName" class="inputSpan"/><br/>
+	</div>
+	<div style="width:100%;">
+		<span class="inputSpan">Password:</span> <input type="password" id="txtPassword" class="inputSpan"/><br/>
+	</div>
+	
+	
+	<div style="width:100%;">
+	<span class="inputSpan" class="margin-left:25%">Role:</span> 
+	<select id="cmbRole">
+		<option>Select One</option>
+		<option value="USER">User</option>
+		<option value="ADMIN">Admin</option>
+	</select>
+	<br/>
+	</div>
+	
+	<div style="width:100%;">
+	<span class="inputSpan">Active:</span> <input type="checkbox" id="cbActive" class="inputSpan"> <br/>
+	</div>
+	
+	<div style="width:100%;">
+		<div class="floatLeft" onclick="saveUser();">Save</div> <div style="margin-left:15%;" onclick="cancelSave();">Cancel</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="./js/user.js"></script>

@@ -1,0 +1,38 @@
+<div id="list" style="width:100%;">
+	<table id="tblUsers" style="width:50%; margin-left:25%;">
+		<tr>
+			<td></td>
+			<td>Name</td>
+			<td>Description</td>
+			<td>Location</td>
+			<td>Active</td>
+		</tr>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+<div id="edit" class="hidden" style="width:100%;">
+	<div style="width:100%;">
+		<span class="inputSpan">Name:</span> <input type="text" id="txtName" class="inputSpan"/><br/>
+	</div>
+	<div style="width:100%;">
+		<span class="inputSpan">Description:</span> <input type="text" id="txtDescription" class="inputSpan"/><br/>
+	</div>
+	
+	<div style="width:100%;">
+		<span class="inputSpan">Location:</span> <input type="text" id="txtLocation" class="inputSpan"/><br/>
+	</div>
+	
+	<div style="width:100%;">
+	<span class="inputSpan">Active:</span> <input type="checkbox" id="cbActive" class="inputSpan"> <br/>
+	</div>
+	
+	<div style="width:100%;">
+		<div class="floatLeft" onclick="saveClock();">Save</div> <div style="margin-left:15%;" onclick="cancelSave();">Cancel</div>
+	</div>
+</div>
+
+<span onclick="editClock(null);"> temp</span>
+
+<script type="text/javascript" src="./js/clock.js"></script>
