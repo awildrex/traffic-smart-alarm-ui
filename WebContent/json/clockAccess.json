@@ -1,0 +1,13 @@
+[{
+	"id": 1,
+	"clock": 1,
+	"allowed_users": [1, 2, 3]
+}, {
+	"id": 2,
+	"clock": 2,
+	"allowed_users": [1]
+}, {
+	"id": 3,
+	"clock": 2,
+	"allowed_users": []
+}]

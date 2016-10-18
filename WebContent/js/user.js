@@ -1,38 +1,59 @@
 //constants in class
-var users;
-var tableFormat='<tr><td><img class="button" src="./images/edit1.png" onclick="editUser({0})"/>' +
-				'<img class="button" src="./images/delete1.png" onclick="deleteUser({1})"/></td><td>{2}</td><td>{3}</td><td>{4}</td></tr>';
 
-var userTable = null;
-var userURL = 'http://localhost:8888/json/user.json';
-var editRowNum = null;
+
+tableFormat='<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editUser({1})"/>' +
+'<img class="button" src="./images/delete1.png" onclick="deleteUser({2})"/></div>' +
+'<div class="floatLeft" style="width:35%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
+'<div class="floatLeft" style="width:40%; min-width:100px; height:30px;"><span class="hidden">Description:</span>{4}</div>' +
+'<div class="floatLeft" style="width:10%; min-width:50px; height:30px;"><span class="hidden">Location:</span>{5}</div></div>';
+
 
 function getUsers(data){
-	users=data;
-	for(var i=0; i<users.length; i++){
-		addUserRow(users[i], i);
+	usersList=data;
+	for(var i=0; i<usersList.length; i++){
+		addUserRow(usersList[i], i);
 	}	
 }
 
-function editUser(rowNum){
-	$('#txtUserName').val(users[rowNum].username);
-	$('#cmbRole').val(users[rowNum].role);
-	$('#cbActive').prop('checked', users[rowNum].active);
+function editUser(id){
+	if(id !== null ){
+		editRowNum = getUserIndex(id);
+		if(editRowNum > -1) {
+			$('#txtUserName').val(usersList[editRowNum].username);
+			$('#cmbRole').val(usersList[editRowNum].role);
+			$('#cbActive').prop('checked', usersList[editRowNum].active);
+		} else {
+			editRowNum = null;
+			return;
+		}
+	} else {
+		editRowNum = null;
+		$('#txtUserName').val("");
+		$('#txtPassword').val("");
+		$('#cmbRole').val("Select One");
+		$('#cbActive').prop('checked', false);
+	}
+	$('#btnAdd').addClass('hidden');
 	$('#list').addClass('hidden');
 	$('#edit').removeClass('hidden');
-	
 }
 
-function deleteUser(rowNum){
+function deleteUser(id){
+	var tempURL = USER_URL + '/' + id;
 	
+	var callback = function(){
+		$('#user_' + id).remove();
+	};
+	
+	deleteData(tempURL, callback);
 }
 
 
 function saveUser(){
-	var username = $('#txtUsername').val();
+	var username = $('#txtUserName').val();
 	var password = $('#txtPassword').val();
 	var role = $('#cmbRole').val();
-	var active = $('#cbActive').val();
+	var active = $('#cbActive').is(':checked');
 	
 	var user = {
 		"username": username,
@@ -41,29 +62,42 @@ function saveUser(){
 		"active": active
 	};
 	
-	var tempURL = userURL;
+	var tempURL = USER_URL;
 	if(editRowNum !== null){
-		tempURL += '/' + users[editRowNum];
+		tempURL += '/' + usersList[editRowNum].id;
 	}
 	
 	var callback = function(data){
-		//alert(data);
-		addUserRow(data, users.length);
-		$('#list').addClass('hidden');
-		$('#edit').removeClass('hidden');
+		if(editRowNum !== null){
+			usersList[editRowNum] = data;
+		} else {
+			usersList.push(data);
+		}
+		
+		addUserRow(data);
+		$('#btnAdd').removeClass('hidden');
+		$('#list').removeClass('hidden');
+		$('#edit').addClass('hidden');
 	}
 	
 	postData(tempURL, user, callback);
 }
 
-function addUserRow(user, rowNum){
-	if (userTable === null){
-		userTable= $('#tblUsers')
+function addUserRow(user){
+	if (contentTable === null){
+		contentTable= $('#tblUsers')
 	}
-	var val = tableFormat.format(rowNum, rowNum, user.username, user.role, user.active);
-	userTable.append(val);
+	
+	var val = tableFormat.format(user.id, user.id, user.id, user.username, user.role, user.active);
+	var div = $('#user_' + user.id);
+	
+	if( div.length){
+		div.html(val);
+	} else {
+		contentTable.append(val);
+	}
 }
 
 $(document).ready(function() {
-	getData(userURL, getUsers);
+	getData(USER_URL, getUsers);
 });

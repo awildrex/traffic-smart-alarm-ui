@@ -1,36 +1,51 @@
-var clocks;
-var clockTableFormat='<tr><td><img class="button" src="./images/edit1.png" onclick="editClock({0})"/>' +
-					 '<img class="button" src="./images/delete1.png" onclick="deleteClock({1})"/></td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>';
-var clockURL = 'http://localhost:8888/json/clocks.json';
-editRowNum = null;
-contentTable=null;
+
+tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editClock({1})"/>' +
+'<img class="button" src="./images/delete1.png" onclick="deleteClock({2})"/></div>' +
+'<div class="floatLeft" style="width:15%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
+'<div class="floatLeft" style="width:30%; min-width:100px; height:30px;"><span class="hidden">Description:</span>{4}</div>' +
+'<div class="floatLeft" style="width:30%; min-width:100px; height:30px;"><span class="hidden">Location:</span>{5}</div>' +
+'<div class="floatLeft" style="width:10%; min-width:50px; height:30px;"><span class="hidden">Active:</span>{6}</div></div>';
 
 function getClocks(data){
-	clocks=data;
+	clockList=data;
 	for(var i=0; i<clocks.length; i++){
-		addClockRow(clocks[i], i);
+		addClockRow(clocks[i]);
 	}	
 }
 
-function editClock(rowNum){
-	if(rowNum !== null) {
-		$('#txtName').val(clocks[rowNum].name);
-		$('#txtDescription').val(clocks[rowNum].description);
-		$('#txtLocation').val(clocks[rowNum].location);
-		$('#cbActive').prop('checked', clocks[rowNum].active);
+function editClock(id){
+	if(id !== null) {
+		editRowNum = getClockIndex(id);
+		if(editRowNum >-1) {
+			$('#txtName').val(clocks[editRowNum].name);
+			$('#txtDescription').val(clocks[editRowNum].description);
+			$('#txtLocation').val(clocks[editRowNum].location);
+			$('#cbActive').prop('checked', clocks[editRowNum].active);
+		} else {
+			editRowNum = null;
+			return;
+		}
+	} else {
+		editRowNum = null;
+		$('#txtName').val("");
+		$('#txtDescription').val("");
+		$('#txtLocation').val("");
+		$('#cbActive').prop('checked', false);
 	}
+	
+	$('#btnAdd').addClass('hidden');
 	$('#list').addClass('hidden');
 	$('#edit').removeClass('hidden');
 }
 
-function deleteClock(rowNum){
-	var url = clockURL + rowNum;
+function deleteClock(id){
+	var tempURL = CLOCK_URL + '/' + id;
 	
-	var success=function(){
-		//TODO: remove row from table;
-	}
+	var callback = function(){
+		$('#cl_' + id).remove();
+	};
 	
-	deleteData(url, success);
+	deleteData(tempURL, callback);
 }
 
 
@@ -38,7 +53,7 @@ function saveClock(){
 	var name = $('#txtName').val();
 	var description = $('#txtDescription').val();
 	var location = $('#txtLocation').val();
-	var active = $('#cbActive').val();
+	var active = $('#cbActive').is(':checked');
 	
 	var clock = {
 		"name": name,
@@ -47,29 +62,42 @@ function saveClock(){
 		"active": active
 	};
 	
-	var tempURL = clockURL;
+	var tempURL = CLOCK_URL;
 	if(editRowNum !== null){
-		tempURL += clocks[editRowNum];
+		tempURL += clocks[editRowNum].id;
 	}
 	
 	var callback = function(data){
-		//alert(data);
-		addClockRow(data, clock.length);
-		$('#list').addClass('hidden');
-		$('#edit').removeClass('hidden');
+		if(editRowNum !== null){
+			clockList[editRowNum] = data;
+		} else {
+			clockList.push(data);
+		}
+		
+		addClockRow(data);
+
+		$('#btnAdd').removeClass('hidden');
+		$('#list').removeClass('hidden');
+		$('#edit').addClass('hidden');
 	}
 	
 	postData(tempURL, clock, callback);
 }
 
-function addClockRow(obj, rowNum){
+function addClockRow(obj){
 	if (contentTable === null){
 		contentTable= $('#tblUsers')
 	}
-	var val = clockTableFormat.format(rowNum, rowNum, obj.name, obj.description, obj.location, obj.active);
-	contentTable.append(val);
+	var val = tableFormat.format(obj.id, obj.id, obj.id, obj.name, obj.description, obj.location, obj.active);
+	var div = $('#cl_' + user.id);
+	
+	if( div.length){
+		div.html(val);
+	} else {
+		contentTable.append(val);
+	}
 }
 
 $(document).ready(function() {
-	getData(clockURL, getClocks);
+	getData(CLOCK_URL, getClocks);
 });

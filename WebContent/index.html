@@ -7,27 +7,25 @@
 <body>
 
 	<div id="header">
-		<div id="icon" class="menu floatLeft" onclick="loadPage('partials/menu.html')">
+		<div id="icon" class="menu floatLeft" onclick="$('#menu').removeClass('hidden');">
 			<div class="menuLines"></div>
 			<div class="menuLines"></div>
 			<div class="menuLines"></div>
+		</div>
+		
+		<div id="menu" class="menuContent hidden">
+			<div class="menuButton floatLeft" onclick="loadPage('partials/user.html')"> Users </div>
+			<div class="menuButton floatLeft" onclick="loadPage('partials/clockAccess.html')"> Clock Access </div>
+			<div class="menuButton floatLeft" onclick="loadPage('partials/clock.html')"> Clocks </div>
 		</div>
 		
 		<div id="divUserName" class="floatRight marginRight10">
 		<br/>
 			<span>Welcome</span>&nbsp;<span id="spName">Bob</span>!
 		</div>
-	</div>
-	
-
-	
+  	</div>
 	<div id="content">
-		<div id="temp">
-			test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>test<br/>
-		</div>	
 	</div>
-
-
 	<script type="text/javascript" src="./js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 </body>

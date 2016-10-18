@@ -1,0 +1,58 @@
+<div>
+  <span class="heading3">Clock Access</span>
+  <hr/>
+</div>
+
+<div id="list">
+  	<div class="tableHeader">
+ 		<div class="floatLeft" style="width:15%; min-width:25px; height:20px;"></div>
+    	<div class="floatLeft" style="width:40%; min-width:50px">Clock</div>
+    	<div class="floatLeft" style="width:45%; min-width:50px">Users</div>
+	</div>
+	<div id="tblUsers" class="tableContent">
+    
+	</div>
+	
+</div>
+
+<div id="edit" class="hidden">
+	<div>
+		<span class="inputSpan">Clock:</span> 
+		<span id="spClock"></span>
+			<select type="" id="cbClocks" class="inputSpan"> 
+				<option value="-1">Select Clock</option>
+			</select>
+			<br/>
+	</div>
+	<div>
+		<span class="inputSpan">Users:</span> 
+		<select id="cbUsers" class="inputSpan">
+			<option value="-1">Select User</option>
+		</select>
+		<span class="UIButton" onclick="addUser();"> Add User </span>
+		<br/><br/>
+		<div>
+			<div class="tableHeader" style="width:40%;">
+ 				<div class="floatLeft" style="width:15%; min-width:25px; height:20px;"></div>
+    			<div class="floatLeft" style="width:40%; min-width:50px">Users</div>
+    		</div>
+		<div id="curUsers" style="width:40%;"></div>
+		</div>
+	</div>
+	
+	<br/>
+	<br/>
+	
+	<div>
+		<div class="floatLeft UIButton" onclick="saveFunction();" id="btnSave">Save</div> 
+		<div class="floatLeft UIButton" onclick="cancelSave();" id="btnCancel" >Cancel</div>
+	</div>
+</div>
+
+<br/>
+
+<br/>
+<div>
+<span onclick="editFunction(null);" class="UIButton" id="btnAdd">Add Clock Access</span>
+</div>
+<script type="text/javascript" src="./js/clockAccess.js"></script>

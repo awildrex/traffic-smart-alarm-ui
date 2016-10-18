@@ -1,14 +1,18 @@
+<div>
+  <span class="heading3">Users</span>
+  <hr/>
+</div>
+
 <div id="list" style="width:100%;">
-	<table id="tblUsers" style="width:50%; margin-left:25%;">
-		<tr>
-			<td></td>
-			<td>Username</td>
-			<td>Role</td>
-			<td>Active</td>
-		</tr>
-		<tbody>
-		</tbody>
-	</table>
+	<div class="tableHeader">
+	 	<div class="floatLeft" style="width:15%; min-width:25px; height:20px;"></div>
+	    <div class="floatLeft" style="width:35%; min-width:50px">Username</div>
+	    <div class="floatLeft" style="width:40%; min-width:50px">Role</div>
+	    <div class="floatLeft" style="width:10%; min-width:50px">Active</div>
+		</div>
+		<div id="tblUsers" class="tableContent">
+	    
+		</div>
 </div>
 
 <div id="edit" class="hidden" style="width:100%;">
@@ -35,8 +39,12 @@
 	</div>
 	
 	<div style="width:100%;">
-		<div class="floatLeft" onclick="saveUser();">Save</div> <div style="margin-left:15%;" onclick="cancelSave();">Cancel</div>
+		<div class="floatLeft UIButton" onclick="saveUser();">Save</div> <div style="margin-left: 10px;"class="floatLeft UIButton" onclick="cancelSave();">Cancel</div>
 	</div>
 </div>
-
+<br/>	
+<br/>
+<div>
+	<span onclick="editUser(null);" class="UIButton" id="btnAdd">Add User</span>
+</div>
 <script type="text/javascript" src="./js/user.js"></script>

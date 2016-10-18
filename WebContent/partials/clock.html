@@ -1,38 +1,48 @@
-<div id="list" style="width:100%;">
-	<table id="tblUsers" style="width:50%; margin-left:25%;">
-		<tr>
-			<td></td>
-			<td>Name</td>
-			<td>Description</td>
-			<td>Location</td>
-			<td>Active</td>
-		</tr>
-		<tbody>
-		</tbody>
-	</table>
+<div>
+  <span class="heading3">Clocks</span>
+  <hr/>
 </div>
 
-<div id="edit" class="hidden" style="width:100%;">
-	<div style="width:100%;">
+<div id="list">
+  <div class="tableHeader">
+ 	<div class="floatLeft" style="width:15%; min-width:25px; height:20px;"></div>
+    <div class="floatLeft" style="width:15%; min-width:50px">Name</div>
+    <div class="floatLeft" style="width:30%; min-width:50px">Description</div>
+    <div class="floatLeft" style="width:30%; min-width:50px">Location</div>
+    <div class="floatLeft" style="width:10%; min-width:50px">Active</div>
+	</div>
+	<div id="tblUsers" class="tableContent">
+    
+	</div>
+	
+</div>
+
+<div id="edit" class="hidden">
+	<div>
 		<span class="inputSpan">Name:</span> <input type="text" id="txtName" class="inputSpan"/><br/>
 	</div>
-	<div style="width:100%;">
+	<div>
 		<span class="inputSpan">Description:</span> <input type="text" id="txtDescription" class="inputSpan"/><br/>
 	</div>
 	
-	<div style="width:100%;">
+	<div>
 		<span class="inputSpan">Location:</span> <input type="text" id="txtLocation" class="inputSpan"/><br/>
 	</div>
 	
-	<div style="width:100%;">
+	<div>
 	<span class="inputSpan">Active:</span> <input type="checkbox" id="cbActive" class="inputSpan"> <br/>
 	</div>
 	
-	<div style="width:100%;">
-		<div class="floatLeft" onclick="saveClock();">Save</div> <div style="margin-left:15%;" onclick="cancelSave();">Cancel</div>
+	<div>
+		<div class="floatLeft UIButton" onclick="saveClock();" id="btnSave">Save</div> 
+		<div class="floatLeft UIButton" onclick="cancelSave();" id="btnCancel" >Cancel</div>
 	</div>
 </div>
 
-<span onclick="editClock(null);"> temp</span>
+<br/>
 
+<br/>
+<div>
+<span onclick="editClock(null);" class="UIButton" id="btnAdd">Add Alarm</span>
+</div>
 <script type="text/javascript" src="./js/clock.js"></script>
