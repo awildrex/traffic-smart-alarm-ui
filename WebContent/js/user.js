@@ -1,6 +1,6 @@
 //constants in class
 
-
+contentTable = null;
 tableFormat='<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editUser({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteUser({2})"/></div>' +
 '<div class="floatLeft" style="width:35%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
@@ -63,13 +63,16 @@ function saveUser(){
 	};
 	
 	var tempURL = USER_URL;
+	var postType = false;
 	if(editRowNum !== null){
 		tempURL += '/' + usersList[editRowNum].id;
+		postType = true;
 	}
 	
 	var callback = function(data){
 		if(editRowNum !== null){
 			usersList[editRowNum] = data;
+			
 		} else {
 			usersList.push(data);
 		}
@@ -80,7 +83,7 @@ function saveUser(){
 		$('#edit').addClass('hidden');
 	}
 	
-	postData(tempURL, user, callback);
+	postData(tempURL, user, callback, postType);
 }
 
 function addUserRow(user){

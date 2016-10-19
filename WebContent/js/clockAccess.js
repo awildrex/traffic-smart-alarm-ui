@@ -1,12 +1,12 @@
 userTable = null;
 usersList = null;
 clockList = null;
-
+contentTable = null;
 
 tableFormat = '<div id="ca_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
-			  '<img class="button" src="./images/delete1.png" onclick="deleteUser({2})"/></div>' +
-			  '<div class="floatLeft" style="width:40%; min-width:50px; height:30px;">{3}</div>' +
-    		  '<div class="floatLeft" style="width:45%; min-width:50px; height:30px;">{4}</div></div>';
+			  '</div>' +
+			  '<div class="floatLeft" style="width:40%; min-width:50px; height:30px;">{2}</div>' +
+    		  '<div class="floatLeft" style="width:45%; min-width:50px; height:30px;">{3}</div></div>';
     		  
 var usersAccessTable = '<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleUserOption({1}, false)"/></div>' +
@@ -49,19 +49,20 @@ editFunction = function(rowNum){
 		editRowNum = getClockAccessIndex(rowNum);
 		console.log(editRowNum);
 		if(editRowNum > -1) {
-			$('#cbClocks').val(clockAccessList[editRowNum].clock);
-			var clockID = getClockIndex(clockAccessList[editRowNum].clock);
+			$('#cbClocks').val(clockAccessList[editRowNum].clockId);
+			var clockID = getClockIndex(clockAccessList[editRowNum].clockId);
 			$('#spClock').text(clockList[clockID].name);
 			
 			$('#cbClocks').addClass('hidden');
 			$('#spClock').removeClass('hidden');
 		
 			
-			for(var i=0; i<	clockAccessList[editRowNum].allowed_users.length; ++i){
-				toggleUserOption(clockAccessList[editRowNum].allowed_users[i], true);
+			for(var i=0; i<	clockAccessList[editRowNum].allowedUsers.length; ++i){
+				toggleUserOption(clockAccessList[editRowNum].allowedUsers[i], true);
 			}
 		}
 	} else {
+		editRowNum = null;
 		$('#cbClocks').val("Select Clock");
 		$('#cbUsers').val("Select User");	
 		$('#cbClocks').removeClass('hidden');
@@ -80,22 +81,24 @@ saveFunction = function(){
 	var requestType='POST';
 	var usersSelected = $('#cbUsers').find('option[disabled]');
 	var tempURL = CLOCK_ACCESS_URL;
+	var postType = false;
 	
 	for(var i=0; i<usersSelected.length; ++i){
-		userIDs.push(usersSelected[i].value);
+		userIDs.push(parseInt(usersSelected[i].value));
 	}
 	
 	
 	if(editRowNum !== null){
 		tempURL += '/' + clockAccessList[editRowNum].id;
-		clockID = clockAccessList[editRowNum].clock;
+		clockID = clockAccessList[editRowNum].clockId;
+		postType = true;
 	} else {
-		clockID = $('#cbClocks').val();
+		clockID = parseInt($('#cbClocks').val());
 	}
 	
 	var access = {
-		"clock": clockID,
-		"allowed_users": userIDs
+		"clockId": clockID,
+		"allowedUsers": userIDs
 	};
 	
 	console.log(tempURL);
@@ -115,7 +118,7 @@ saveFunction = function(){
 		$('#btnAdd').removeClass('hidden');
 	}
 	
-	postData(tempURL, access, callback);
+	postData(tempURL, access, callback, postType);
 };
 
 generateRow = function(clockAccess){
@@ -130,15 +133,15 @@ generateRow = function(clockAccess){
 	if( clockIndex >-1) {
 		clockname = clockList[clockIndex].name;
 	}
-	for(var i=0; i<	clockAccess.allowed_users.length; ++i){
+	console.log(clockAccess);
+	for(var i=0; i<	clockAccess.allowedUsers.length; ++i){
 		if (usernames !== '') {
-			usernames = usernames + ', ' + getUserName(clockAccess.allowed_users[i]);
+			usernames = usernames + ', ' + getUserName(clockAccess.allowedUsers[i]);
 		} else {
-			usernames = getUserName(clockAccess.allowed_users[i]);
+			usernames = getUserName(clockAccess.allowedUsers[i]);
 		}
 	}
-	
-	var val = tableFormat.format(clockAccess.id, clockAccess.id, clockAccess.id, clockname, usernames);
+	var val = tableFormat.format(clockAccess.id, clockAccess.id, clockname, usernames);
 	
 	var div = $('#ca_' + clockAccess.id);
 	if( div.length){

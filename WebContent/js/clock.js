@@ -1,4 +1,4 @@
-
+contentTable = null;
 tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editClock({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteClock({2})"/></div>' +
 '<div class="floatLeft" style="width:15%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
@@ -8,8 +8,8 @@ tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width
 
 function getClocks(data){
 	clockList=data;
-	for(var i=0; i<clocks.length; i++){
-		addClockRow(clocks[i]);
+	for(var i=0; i<clockList.length; i++){
+		addClockRow(clockList[i]);
 	}	
 }
 
@@ -17,10 +17,10 @@ function editClock(id){
 	if(id !== null) {
 		editRowNum = getClockIndex(id);
 		if(editRowNum >-1) {
-			$('#txtName').val(clocks[editRowNum].name);
-			$('#txtDescription').val(clocks[editRowNum].description);
-			$('#txtLocation').val(clocks[editRowNum].location);
-			$('#cbActive').prop('checked', clocks[editRowNum].active);
+			$('#txtName').val(clockList[editRowNum].name);
+			$('#txtDescription').val(clockList[editRowNum].description);
+			$('#txtLocation').val(clockList[editRowNum].location);
+			$('#cbActive').prop('checked', clockList[editRowNum].active);
 		} else {
 			editRowNum = null;
 			return;
@@ -62,10 +62,13 @@ function saveClock(){
 		"active": active
 	};
 	
+	var postType = false;
 	var tempURL = CLOCK_URL;
 	if(editRowNum !== null){
-		tempURL += clocks[editRowNum].id;
+		tempURL += clockList[editRowNum].id;
+		postType = true;
 	}
+	
 	
 	var callback = function(data){
 		if(editRowNum !== null){
@@ -81,7 +84,7 @@ function saveClock(){
 		$('#edit').addClass('hidden');
 	}
 	
-	postData(tempURL, clock, callback);
+	postData(tempURL, clock, callback, postType);
 }
 
 function addClockRow(obj){
@@ -89,7 +92,7 @@ function addClockRow(obj){
 		contentTable= $('#tblUsers')
 	}
 	var val = tableFormat.format(obj.id, obj.id, obj.id, obj.name, obj.description, obj.location, obj.active);
-	var div = $('#cl_' + user.id);
+	var div = $('#cl_' + obj.id);
 	
 	if( div.length){
 		div.html(val);
