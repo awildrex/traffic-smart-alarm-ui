@@ -78,7 +78,6 @@ editFunction = function(rowNum){
 saveFunction = function(){
 	var userIDs=[];
 	var clockID=null;
-	var requestType='POST';
 	var usersSelected = $('#cbUsers').find('option[disabled]');
 	var tempURL = CLOCK_ACCESS_URL;
 	var postType = false;
@@ -89,9 +88,8 @@ saveFunction = function(){
 	
 	
 	if(editRowNum !== null){
-		tempURL += '/' + clockAccessList[editRowNum].id;
+		//tempURL += '/' + clockAccessList[editRowNum].id;
 		clockID = clockAccessList[editRowNum].clockId;
-		postType = true;
 	} else {
 		clockID = parseInt($('#cbClocks').val());
 	}
@@ -110,11 +108,11 @@ saveFunction = function(){
 		} else {
 			clockAccessList.push(data);
 		}
-		
+
 		generateRow(data);
 		editRowNum = null;
-		$('#list').addClass('hidden');
-		$('#edit').removeClass('hidden');
+		$('#list').removeClass('hidden');
+		$('#edit').addClass('hidden');
 		$('#btnAdd').removeClass('hidden');
 	}
 	
@@ -129,7 +127,7 @@ generateRow = function(clockAccess){
 		userTable= $('#tblUsers')
 	}
 	
-	var clockIndex = getClockIndex(clockAccess.clock);
+	var clockIndex = getClockIndex(clockAccess.clockId);
 	if( clockIndex >-1) {
 		clockname = clockList[clockIndex].name;
 	}

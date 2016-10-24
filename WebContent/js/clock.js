@@ -65,7 +65,7 @@ function saveClock(){
 	var postType = false;
 	var tempURL = CLOCK_URL;
 	if(editRowNum !== null){
-		tempURL += clockList[editRowNum].id;
+		tempURL = CLOCK_URL + '/' + clockList[editRowNum].id;
 		postType = true;
 	}
 	

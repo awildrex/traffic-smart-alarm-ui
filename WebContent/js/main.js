@@ -125,8 +125,8 @@ function errorCallback(req){
 }
 
 function getUserIndex(id){
-	for(var i=0; i<userList.length; ++i){
-		if(userList[i].id === id){
+	for(var i=0; i<usersList.length; ++i){
+		if(usersList[i].id === id){
 			return i;
 		}
 	}
