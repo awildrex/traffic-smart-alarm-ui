@@ -1,12 +1,4 @@
-/**
- * 
- */
-
-var username='smart-alarm-admin';
-var password='password here';
-var hash=btoa(username + ':' + password);
-console.log(hash);
-var API_BASE_URL = "http://localhost:8080/";
+var API_BASE_URL = "localhost:8080/";
 //var API_BASE_URL = "http://localhost:8888/";
 
 var USER_URL ='users';
@@ -18,18 +10,25 @@ var CLOCK_URL ='clocks';
 var CLOCK_ACCESS_URL='acls';
 //var CLOCK_ACCESS_URL='http://localhost:8888/json/clockAccess.json';
 
+var CUR_USER_URL = 'currentUser'
+
+var currentUser = null;
 var contentTable = null;
 var editRowNum = null;
 var tableFormat = null;
+var currentURL = null;
 
 var editFunction = null;
 var saveFunction = null;
 var generateRow = null;
+var getFuntion	 = null;
+var exceptionFunction = null;
+
 
 //global lists
-var usersList = null;
-var clockAccessList = null;
-var clockList = null;
+var usersList = [];
+var clockAccessList = [];
+var clockList = [];
 
 
 
@@ -43,15 +42,22 @@ function loadPage(url){
 
 
 function getData(url, callback) {
+	var val = getCookie('creds');
+	if( val === null ) {
+		loadPage('./partials/login.html');
+		return;
+	}
+	console.log(val);
+	
 	if(!url.startsWith("http")) {
-		url = API_BASE_URL + url;
+		url = 'http://' + API_BASE_URL + url;
 	}
 	console.log(url);
 	$.ajax({
 		  url: url,
 		  type: 'GET',
 		  beforeSend:function(xhr){
-		  		xhr.setRequestHeader("Authorization",'Basic ' + hash);
+		  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
 		}).done(function(data){
 			//alert(data);
@@ -63,16 +69,21 @@ function getData(url, callback) {
 }
 
 function deleteData(url, callback){
+	var val = getCookie('creds');
+	if( val === null ) {
+		loadPage('./partials/login.html');
+		return;
+	}
 	
 	if(!url.startsWith("http")) {
-		url = API_BASE_URL + url;
+		url = 'http://' + API_BASE_URL + url;
 	}
 	
 	$.ajax({
 		  url: url,
 		  type: 'DELETE',
 		  beforeSend:function(xhr){
-		  	xhr.setRequestHeader("Authorization",'Basic ' + hash);
+		  	xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
 		}).done(function(){
 			//alert(data);
@@ -84,11 +95,16 @@ function deleteData(url, callback){
 }
 
 function postData(url, data, callback, put){
-	if(!url.startsWith("http")) {
-		url = API_BASE_URL + url;
+	var val = getCookie('creds');
+	if( val === null ) {
+		loadPage('./partials/login.html');
+		return;
 	}
-	console.log(JSON.stringify(data));
-	console.log(url);
+	
+	if(!url.startsWith("http")) {
+		url = 'http://' + API_BASE_URL + url;
+	}
+
 	var type = 'POST';
 	
 	if(put){
@@ -103,7 +119,7 @@ function postData(url, data, callback, put){
 	    data: JSON.stringify(data),
 	    processData: false,
  		beforeSend:function(xhr){
-	  		xhr.setRequestHeader("Authorization",'Basic ' + hash);
+	  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		}
 	}).done(function(data){
 			//alert(data);
@@ -121,6 +137,9 @@ function cancelSave(){
 }
 
 function errorCallback(req){
+	if(exceptionFunction !== null) {
+		exceptionFunction(req);
+	}
 	alert(req.responseText);
 }
 
@@ -159,3 +178,67 @@ String.prototype.format = function() {
   }
   return str;
 }
+
+function getCookie(cname) {
+	var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return null;
+}
+
+function setCookie(cname, cvalue, exMinutes) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exMinutes*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function validateUser(){
+
+	var val = getCookie('creds');
+	if( val !== null ) {
+		var url = 'http://' + API_BASE_URL + CUR_USER_URL; 
+		console.log(url);
+		$.ajax({
+		  url: url,
+		  type: 'GET',
+		  beforeSend:function(xhr){
+		  		xhr.setRequestHeader("Authorization",'Basic ' + val);
+		  }
+		}).done(function(data){
+			console.log('here');
+			currentUser = data;
+			setCookie('creds', val, 20);
+			$('#icon').removeClass('hidden');
+			$('#lbLogoff').removeClass('hidden');
+		}).fail(function(data){
+			alert(data.status);
+			//errorCallback(thing);
+			
+			if(data.status === 403 ){
+				alert('Invalid login');
+				if (currentURL !== null ){
+					loadPage('./partials/login.html');
+				} else {
+					exceptionFunction();
+				}
+				//invalidate cookie
+				setCookie('creds', null, -1);
+			}
+		});
+	} else {
+		loadPage('./partials/login.html');
+	}
+}
+
+$(document).ready(function() {
+	validateUser();
+});

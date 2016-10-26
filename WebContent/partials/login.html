@@ -1,6 +1,10 @@
-<div>
+<div id="dvLogin">
 	<span>Login</span>
 	<input id="txtUserName" type="text"/>
 	<input id="txtPassword" type="password"/>
-	<div>login</div>
+	<span onclick="login();" class="UIButton" id="btnLogin">Login</span>
 </div>
+
+<script type="text/javascript">
+	$.getScript("./js/login.js");
+</script>

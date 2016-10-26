@@ -1,7 +1,11 @@
+//validate user is logged in before anything
+validateUser();
+
 userTable = null;
 usersList = null;
 clockList = null;
 contentTable = null;
+exceptionFunction = null;
 
 tableFormat = '<div id="ca_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
 			  '</div>' +
@@ -190,5 +194,7 @@ function toggleUserOption(id, toggle){
 }
 
 $(document).ready(function() {
-	getData(CLOCK_URL, clockAccessClockCallback);
+	if(validateUser()){
+		getData(CLOCK_URL, clockAccessClockCallback);
+	}
 });

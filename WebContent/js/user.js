@@ -1,14 +1,17 @@
 //constants in class
 
 contentTable = null;
+exceptionFunction = null;
+
 tableFormat='<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editUser({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteUser({2})"/></div>' +
 '<div class="floatLeft" style="width:35%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
 '<div class="floatLeft" style="width:40%; min-width:100px; height:30px;"><span class="hidden">Description:</span>{4}</div>' +
 '<div class="floatLeft" style="width:10%; min-width:50px; height:30px;"><span class="hidden">Location:</span>{5}</div></div>';
 
+currentURL = USER_URL;
 
-function getUsers(data){
+getFuntion = function(data){
 	usersList=data;
 	for(var i=0; i<usersList.length; i++){
 		addUserRow(usersList[i], i);
@@ -101,6 +104,8 @@ function addUserRow(user){
 	}
 }
 
+
 $(document).ready(function() {
-	getData(USER_URL, getUsers);
+	validateUser();
+	getData(USER_URL, getFuntion);
 });

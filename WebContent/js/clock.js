@@ -1,4 +1,8 @@
+//validate user is logged in before anything
+validateUser();
+
 contentTable = null;
+exceptionFunction = null;
 tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editClock({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteClock({2})"/></div>' +
 '<div class="floatLeft" style="width:15%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
@@ -8,6 +12,9 @@ tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width
 
 function getClocks(data){
 	clockList=data;
+	if(clockList === null){
+		clockList = [];
+	}
 	for(var i=0; i<clockList.length; i++){
 		addClockRow(clockList[i]);
 	}	
@@ -102,5 +109,7 @@ function addClockRow(obj){
 }
 
 $(document).ready(function() {
-	getData(CLOCK_URL, getClocks);
+	if(validateUser()){
+		getData(CLOCK_URL, getClocks);
+	}
 });
