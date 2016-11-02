@@ -1,0 +1,97 @@
+<div>
+  <span class="heading3">Alarms</span>
+  <hr/>
+</div>
+
+<div id="list" style="width:100%;">
+	<div class="tableHeader">
+	 	<div class="floatLeft" style="width:10%; min-width:25px; height:20px;"></div>
+	    <div class="floatLeft" style="width:25%; min-width:25px;">Name</div>
+	    <div class="floatLeft" style="width:25%; min-width:25px;">Clock(s)</div>
+      <div class="floatLeft" style="width:15%; min-width:25px;">Arrival Time</div>
+	    <div class="floatLeft" style="width:25%; min-width:25px;">Schedule</div>
+		</div>
+		<div id="tblUsers" class="tableContent">
+
+		</div>
+</div>
+
+<div id="edit" class="hidden" style="width:100%;">
+	<div style="width:100%;">
+		<span class="inputSpan">Name:</span> <input type="text" id="txtName" class="inputSpan"/><br/>
+	</div>
+	<div style="width:100%;">
+		<span class="inputSpan">Clocks:</span> <select id="cbClocks">
+      <option value="-1">Select Clock</option>
+    </select><br/>
+	</div>
+
+  <div style="width:100%;">
+		<span class="inputSpan">Destination:</span> <input type="text" id="txtDest" class="inputSpan"/><br/>
+	</div>
+
+  <div style="width:100%;" id="dvDays">
+		<span class="inputSpan">Schedule:</span> <br/>
+    <input type="checkbox" id="cbSUNDAY" value="SUNDAY" class="inputSpan">Sunday</input>
+    <input type="checkbox" id="cbMONDAY" value="MONDAY" class="inputSpan">Monday</input><br/>
+    <input type="checkbox" id="cbTUESDAY" value="TUESDAY" class="inputSpan">Tuesday</input>
+    <input type="checkbox" id="cbWEDNESDAY" value="WEDNESDAY" class="inputSpan">Wednesday</input><br/>
+    <input type="checkbox" id="cbTHURSDAY" value="THURSDAY" class="inputSpan">Thursday</input>
+    <input type="checkbox" id="cbFRIDAY" value="FRIDAY" class="inputSpan">Friday</input><br/>
+    <input type="checkbox" id="cbSATURDAY" value="SATURDAY" class="inputSpan">Saturday</input>
+	</div>
+
+  <div style="width:100%;">
+    <span class="inputSpan">Repeat:</span> <input type="checkbox" id="cbRepeat" class="inputSpan"/><br/>
+  </div>
+
+  <div style="width:100%;">
+		<span class="inputSpan">Arrival Time:</span> <input type="text" id="txtArrivalTime" class="inputSpan"/><br/>
+	</div>
+
+  <div style="width:100%;">
+    <span class="inputSpan">Lead Time:</span> <input type="text" id="txtLead" class="inputSpan"/><br/>
+  </div>
+
+	<div style="width:100%;">
+	   <span class="inputSpan">Sound:</span>
+     <select id="cbSound" class="inputSpan">
+       <option value="-1">Select Sound</option>
+       <option value="BUZZ">Buzz</option>
+       <option value="SIREN">Siren</option>
+       <option value="BEEP">Beep</option>
+ 		 </select>
+     <br/>
+	</div>
+
+  <div style="width:100%;">
+	   <span class="inputSpan">Factor:</span>
+     <select id="cbFactors" class="inputSpan">
+       <option value="-1">Select Factor</option>
+       <option value="TRAFFIC">Traffic</option>
+       <option value="WEATHER">Weather</option>
+ 		 </select>
+     <span class="UIButton" onclick="addFactor();"> Add Factor </span>
+     <br/><br/>
+     <div>
+       <div class="tableHeader" style="width:40%;">
+             <div class="floatLeft" style="width:15%; min-width:25px; height:20px;"></div>
+              <div class="floatLeft" style="width:40%; min-width:50px">Factor(s)</div>
+           </div>
+           <div id="curFact" style="width:40%;"></div>
+     </div>
+	</div>
+
+	<div style="width:100%;">
+    <br/><br/>
+		<div class="floatLeft UIButton" onclick="saveUser();">Save</div> <div style="margin-left: 10px;"class="floatLeft UIButton" onclick="cancelSave();">Cancel</div>
+	</div>
+</div>
+<br/>
+<br/>
+<div>
+	<span onclick="editFunction(null);" class="UIButton" id="btnAdd">Add Alarm</span>
+</div>
+<script type="text/javascript">
+	$.getScript("./js/alarms.js");
+</script>
