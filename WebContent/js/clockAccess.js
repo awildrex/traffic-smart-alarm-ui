@@ -11,7 +11,7 @@ tableFormat = '<div id="ca_{0}"><div class="floatLeft" style="width:15%; min-wid
 			  '</div>' +
 			  '<div class="floatLeft" style="width:40%; min-width:50px; height:30px;">{2}</div>' +
     		  '<div class="floatLeft" style="width:45%; min-width:50px; height:30px;">{3}</div></div>';
-    		  
+
 var usersAccessTable = '<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleUserOption({1}, false)"/></div>' +
 					   '<div class="floatLeft" style="width:85%; min-width:50px; height:30px;"><span style="height:30px;">{2}<span></div>' +
@@ -21,14 +21,14 @@ function clockAccessCallback(data) {
 	clockAccessList=data;
 	for(var i=0; i< clockAccessList.length; ++i){
 		generateRow(clockAccessList[i]);
-	}	
+	}
 }
 
 function clockAccessUserCallback(data){
 	usersList=data;
 	var cbUser = $('#cbUsers');
 	for(var i=0; i<usersList.length; ++i){
-		cbUser.append('<option value="' + usersList[i].id +'">' + usersList[i].username + '</option>'); 
+		cbUser.append('<option value="' + usersList[i].id +'">' + usersList[i].username + '</option>');
 	}
 	getData(CLOCK_ACCESS_URL, clockAccessCallback);
 }
@@ -37,7 +37,7 @@ function clockAccessClockCallback(data){
 	clockList=data;
 	var cbUser = $('#cbClocks');
 	for(var i=0; i<clockList.length; ++i){
-		cbUser.append('<option value="' + clockList[i].id +'">' + clockList[i].name + '</option>'); 
+		cbUser.append('<option value="' + clockList[i].id +'">' + clockList[i].name + '</option>');
 	}
 	getData(USER_URL, clockAccessUserCallback);
 }
@@ -56,11 +56,11 @@ editFunction = function(rowNum){
 			$('#cbClocks').val(clockAccessList[editRowNum].clockId);
 			var clockID = getClockIndex(clockAccessList[editRowNum].clockId);
 			$('#spClock').text(clockList[clockID].name);
-			
+
 			$('#cbClocks').addClass('hidden');
 			$('#spClock').removeClass('hidden');
-		
-			
+
+
 			for(var i=0; i<	clockAccessList[editRowNum].allowedUsers.length; ++i){
 				toggleUserOption(clockAccessList[editRowNum].allowedUsers[i], true);
 			}
@@ -68,11 +68,11 @@ editFunction = function(rowNum){
 	} else {
 		editRowNum = null;
 		$('#cbClocks').val("Select Clock");
-		$('#cbUsers').val("Select User");	
+		$('#cbUsers').val("Select User");
 		$('#cbClocks').removeClass('hidden');
 		$('#spClock').addClass('hidden');
 	}
-	
+
 	$('#btnAdd').addClass('hidden');
 	$('#list').addClass('hidden');
 	$('#edit').removeClass('hidden');
@@ -85,27 +85,24 @@ saveFunction = function(){
 	var usersSelected = $('#cbUsers').find('option[disabled]');
 	var tempURL = CLOCK_ACCESS_URL;
 	var postType = false;
-	
+
 	for(var i=0; i<usersSelected.length; ++i){
 		userIDs.push(parseInt(usersSelected[i].value));
 	}
-	
-	
+
+
 	if(editRowNum !== null){
 		//tempURL += '/' + clockAccessList[editRowNum].id;
 		clockID = clockAccessList[editRowNum].clockId;
 	} else {
 		clockID = parseInt($('#cbClocks').val());
 	}
-	
+
 	var access = {
 		"clockId": clockID,
 		"allowedUsers": userIDs
 	};
-	
-	console.log(tempURL);
-	console.log(access);
-	
+
 	var callback = function(data){
 		if(editRowNum !== null){
 			clockAccessList[editRowNum] = data;
@@ -119,18 +116,18 @@ saveFunction = function(){
 		$('#edit').addClass('hidden');
 		$('#btnAdd').removeClass('hidden');
 	}
-	
+
 	postData(tempURL, access, callback, postType);
 };
 
 generateRow = function(clockAccess){
-	var usernames = '', 
+	var usernames = '',
 		clockname = '';
-		
+
 	if (userTable === null){
 		userTable= $('#tblUsers')
 	}
-	
+
 	var clockIndex = getClockIndex(clockAccess.clockId);
 	if( clockIndex >-1) {
 		clockname = clockList[clockIndex].name;
@@ -144,14 +141,14 @@ generateRow = function(clockAccess){
 		}
 	}
 	var val = tableFormat.format(clockAccess.id, clockAccess.id, clockname, usernames);
-	
+
 	var div = $('#ca_' + clockAccess.id);
 	if( div.length){
 		div.html(val);
 	} else {
 		userTable.append(val);
 	}
-	
+
 };
 
 function getUserName(id) {
@@ -177,7 +174,7 @@ function toggleUserOption(id, toggle){
 	var curUsers = $('#curUsers');
 	var val;
 	var ddl = $('#cbUsers');
-	
+
 	if(toggle===true){
 		for(var i=0; i<usersList.length; ++i){
 			if(usersList[i].id == id){
@@ -194,7 +191,5 @@ function toggleUserOption(id, toggle){
 }
 
 $(document).ready(function() {
-	if(validateUser()){
 		getData(CLOCK_URL, clockAccessClockCallback);
-	}
 });

@@ -1,4 +1,4 @@
-var API_BASE_URL = "localhost:8080/";
+var API_BASE_URL = 'http://smartalarmopenshift-sourcecoders.rhcloud.com/';
 //var API_BASE_URL = "http://localhost:8888/";
 
 var USER_URL ='users';
@@ -10,7 +10,10 @@ var CLOCK_URL ='clocks';
 var CLOCK_ACCESS_URL='acls';
 //var CLOCK_ACCESS_URL='http://localhost:8888/json/clockAccess.json';
 
-var CUR_USER_URL = 'currentUser'
+var CUR_USER_URL = 'currentUser';
+
+var ALARMS_URL = 'alarms';
+//var ALARMS_URL = 'http://localhost:8888/json/alarms.json';
 
 var currentUser = null;
 var contentTable = null;
@@ -19,6 +22,7 @@ var tableFormat = null;
 var currentURL = null;
 
 var editFunction = null;
+var deleteFunction = null;
 var saveFunction = null;
 var generateRow = null;
 var getFuntion	 = null;
@@ -29,6 +33,7 @@ var exceptionFunction = null;
 var usersList = [];
 var clockAccessList = [];
 var clockList = [];
+var alarmsList = [];
 
 
 
@@ -48,9 +53,9 @@ function getData(url, callback) {
 		return;
 	}
 	console.log(val);
-	
+
 	if(!url.startsWith("http")) {
-		url = 'http://' + API_BASE_URL + url;
+		url = API_BASE_URL + url;
 	}
 	console.log(url);
 	$.ajax({
@@ -74,11 +79,11 @@ function deleteData(url, callback){
 		loadPage('./partials/login.html');
 		return;
 	}
-	
+
 	if(!url.startsWith("http")) {
-		url = 'http://' + API_BASE_URL + url;
+		url = API_BASE_URL + url;
 	}
-	
+
 	$.ajax({
 		  url: url,
 		  type: 'DELETE',
@@ -100,17 +105,17 @@ function postData(url, data, callback, put){
 		loadPage('./partials/login.html');
 		return;
 	}
-	
+
 	if(!url.startsWith("http")) {
-		url = 'http://' + API_BASE_URL + url;
+		url = API_BASE_URL + url;
 	}
 
 	var type = 'POST';
-	
+
 	if(put){
 		type = 'PUT';
 	}
-	
+
 	$.ajax({
 	    url: url,
 	    dataType: 'json',
@@ -128,7 +133,7 @@ function postData(url, data, callback, put){
 			//alert(thing);
 			errorCallback(thing);
 		});
-}	
+}
 
 function cancelSave(){
 	$('#list').removeClass('hidden');
@@ -141,6 +146,15 @@ function errorCallback(req){
 		exceptionFunction(req);
 	}
 	alert(req.responseText);
+}
+
+function getAlarmIndex(id){
+	for(var i=0; i<alarmsList.length; ++i){
+		if(alarmsList[i].id === id){
+			return i;
+		}
+	}
+	return -1;
 }
 
 function getUserIndex(id){
@@ -172,8 +186,8 @@ function getClockAccessIndex(id){
 
 String.prototype.format = function() {
   var str = this;
-  for (var i = 0; i < arguments.length; i++) {       
-    var reg = new RegExp("\\{" + i + "\\}", "gm");             
+  for (var i = 0; i < arguments.length; i++) {
+    var reg = new RegExp("\\{" + i + "\\}", "gm");
     str = str.replace(reg, arguments[i]);
   }
   return str;
@@ -205,11 +219,12 @@ function validateUser(){
 
 	var val = getCookie('creds');
 	if( val !== null ) {
-		var url = 'http://' + API_BASE_URL + CUR_USER_URL; 
+		var url = API_BASE_URL + CUR_USER_URL;
 		console.log(url);
 		$.ajax({
 		  url: url,
 		  type: 'GET',
+			data: null,
 		  beforeSend:function(xhr){
 		  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
@@ -222,7 +237,7 @@ function validateUser(){
 		}).fail(function(data){
 			alert(data.status);
 			//errorCallback(thing);
-			
+
 			if(data.status === 403 ){
 				alert('Invalid login');
 				if (currentURL !== null ){

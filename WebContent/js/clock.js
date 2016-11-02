@@ -17,7 +17,7 @@ function getClocks(data){
 	}
 	for(var i=0; i<clockList.length; i++){
 		addClockRow(clockList[i]);
-	}	
+	}
 }
 
 function editClock(id){
@@ -39,7 +39,7 @@ function editClock(id){
 		$('#txtLocation').val("");
 		$('#cbActive').prop('checked', false);
 	}
-	
+
 	$('#btnAdd').addClass('hidden');
 	$('#list').addClass('hidden');
 	$('#edit').removeClass('hidden');
@@ -47,11 +47,11 @@ function editClock(id){
 
 function deleteClock(id){
 	var tempURL = CLOCK_URL + '/' + id;
-	
+
 	var callback = function(){
 		$('#cl_' + id).remove();
 	};
-	
+
 	deleteData(tempURL, callback);
 }
 
@@ -61,36 +61,36 @@ function saveClock(){
 	var description = $('#txtDescription').val();
 	var location = $('#txtLocation').val();
 	var active = $('#cbActive').is(':checked');
-	
+
 	var clock = {
 		"name": name,
 		"description": description,
 		"location": location,
 		"active": active
 	};
-	
+
 	var postType = false;
 	var tempURL = CLOCK_URL;
 	if(editRowNum !== null){
 		tempURL = CLOCK_URL + '/' + clockList[editRowNum].id;
 		postType = true;
 	}
-	
-	
+
+
 	var callback = function(data){
 		if(editRowNum !== null){
 			clockList[editRowNum] = data;
 		} else {
 			clockList.push(data);
 		}
-		
+
 		addClockRow(data);
 
 		$('#btnAdd').removeClass('hidden');
 		$('#list').removeClass('hidden');
 		$('#edit').addClass('hidden');
 	}
-	
+
 	postData(tempURL, clock, callback, postType);
 }
 
@@ -100,7 +100,7 @@ function addClockRow(obj){
 	}
 	var val = tableFormat.format(obj.id, obj.id, obj.id, obj.name, obj.description, obj.location, obj.active);
 	var div = $('#cl_' + obj.id);
-	
+
 	if( div.length){
 		div.html(val);
 	} else {
@@ -109,7 +109,5 @@ function addClockRow(obj){
 }
 
 $(document).ready(function() {
-	if(validateUser()){
 		getData(CLOCK_URL, getClocks);
-	}
 });
