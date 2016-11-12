@@ -5,12 +5,16 @@ body{
 	background-color:#252839;
 	color:#b5b5b7;
 	font-weight:600;
+	height:100%;
 }
-
+html{
+    min-height:100%;/* make sure it is at least as tall as the viewport */
+    position:relative;
+}
 #footer {
   	bottom: 0;
   	left: 0;
-  	
+
   	background: rgba(0,0,0,.8);
   	height:40px;
   	width:800px;
@@ -26,12 +30,13 @@ body{
 	position:fixed;
 	width:100%;
 	height:50px;
+	background-color:#252839;
 }
 
 #clock{
 	font-size:6rem;
 	font-weight:bold;
-	font-family: Big Caslon,Book Antiqua,Palatino Linotype,Georgia,serif; 
+	font-family: Big Caslon,Book Antiqua,Palatino Linotype,Georgia,serif;
 	width:100%;
 	text-align:center;
 }
@@ -40,6 +45,7 @@ body{
 	padding-top:55px;
 	margin:0px auto;
 	max-width:850px;
+	height:100%;
 }
 
 #temp{
@@ -89,7 +95,7 @@ body{
 
 .floatRight{
 	float:right;
-}	
+}
 
 .marginRight10{
 	margin-right:10px
@@ -104,7 +110,7 @@ body{
 	height:30px;
 	font-size:1.25rem;
 	padding-top:5px;
-	display: table-cell; 
+	display: table-cell;
 	vertical-align: middle;
 	text-align:center;
 }
@@ -139,7 +145,7 @@ body{
 
 
 #weatherIcon{
-	
+
 }
 
 
@@ -157,7 +163,7 @@ body{
 	border-radius: 10px;
 	cursor:pointer;
 	padding:1px 5px 1px 5px;
-	
+
 }
 
 .UIButton:hover{
@@ -213,4 +219,3 @@ body{
     display:inline;
 }
 }
-
