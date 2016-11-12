@@ -6,10 +6,11 @@
 <div id="list" style="width:100%;">
 	<div class="tableHeader">
 	 	<div class="floatLeft" style="width:10%; min-width:25px; height:20px;"></div>
-	    <div class="floatLeft" style="width:25%; min-width:25px;">Name</div>
+	    <div class="floatLeft" style="width:15%; min-width:25px;">Name</div>
 	    <div class="floatLeft" style="width:25%; min-width:25px;">Clock(s)</div>
       <div class="floatLeft" style="width:15%; min-width:25px;">Arrival Time</div>
-	    <div class="floatLeft" style="width:25%; min-width:25px;">Schedule</div>
+	    <div class="floatLeft" style="width:20%; min-width:25px;">Schedule</div>
+      <div class="floatLeft" style="width:15%; min-width:25px;">Trigger Time</div>
 		</div>
 		<div id="tblUsers" class="tableContent">
 
@@ -41,16 +42,16 @@
     <input type="checkbox" id="cbSATURDAY" value="SATURDAY" class="inputSpan">Saturday</input>
 	</div>
 
-  <div style="width:100%;">
+  <!--<div style="width:100%;">
     <span class="inputSpan">Repeat:</span> <input type="checkbox" id="cbRepeat" class="inputSpan"/><br/>
-  </div>
+  </div>!-->
 
   <div style="width:100%;">
-		<span class="inputSpan">Arrival Time:</span> <input type="text" id="txtArrivalTime" class="inputSpan"/><br/>
+		<span class="inputSpan">Arrival Time (hh:mm):</span> <input type="text" id="txtArrivalTime" class="inputSpan"/><br/>
 	</div>
 
   <div style="width:100%;">
-    <span class="inputSpan">Lead Time:</span> <input type="text" id="txtLead" class="inputSpan"/><br/>
+    <span class="inputSpan">Lead Time (minutes):</span> <input type="text" id="txtLead" class="inputSpan"/><br/>
   </div>
 
 	<div style="width:100%;">
@@ -67,9 +68,9 @@
   <div style="width:100%;">
 	   <span class="inputSpan">Factor:</span>
      <select id="cbFactors" class="inputSpan">
-       <option value="-1">Select Factor</option>
-       <option value="TRAFFIC">Traffic</option>
-       <option value="WEATHER">Weather</option>
+       <!--<option value="-1">Select Factor</option>>!-->
+       <option value="TRAFFIC" selected="true">Traffic</option>
+       <!--<option value="WEATHER">Weather</option>!-->
  		 </select>
      <span class="UIButton" onclick="addFactor();"> Add Factor </span>
      <br/><br/>
@@ -81,6 +82,9 @@
            <div id="curFact" style="width:40%;"></div>
      </div>
 	</div>
+  <div style="width:100%;">
+    <span class="inputSpan">Active:</span> <input type="checkbox" id="cbActive" class="inputSpan"/><br/>
+  </div>
 
 	<div style="width:100%;">
     <br/><br/>
