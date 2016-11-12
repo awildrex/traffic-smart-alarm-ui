@@ -15,7 +15,7 @@ getFuntion = function(data){
 	usersList=data;
 	for(var i=0; i<usersList.length; i++){
 		addUserRow(usersList[i], i);
-	}	
+	}
 }
 
 function editUser(id){
@@ -43,11 +43,11 @@ function editUser(id){
 
 function deleteUser(id){
 	var tempURL = USER_URL + '/' + id;
-	
+
 	var callback = function(){
 		$('#user_' + id).remove();
 	};
-	
+
 	deleteData(tempURL, callback);
 }
 
@@ -57,35 +57,35 @@ function saveUser(){
 	var password = $('#txtPassword').val();
 	var role = $('#cmbRole').val();
 	var active = $('#cbActive').is(':checked');
-	
+
 	var user = {
 		"username": username,
 		"password": password,
 		"role": role,
 		"active": active
 	};
-	
+
 	var tempURL = USER_URL;
 	var postType = false;
 	if(editRowNum !== null){
 		tempURL += '/' + usersList[editRowNum].id;
 		postType = true;
 	}
-	
+
 	var callback = function(data){
 		if(editRowNum !== null){
 			usersList[editRowNum] = data;
-			
+
 		} else {
 			usersList.push(data);
 		}
-		
+
 		addUserRow(data);
 		$('#btnAdd').removeClass('hidden');
 		$('#list').removeClass('hidden');
 		$('#edit').addClass('hidden');
 	}
-	
+
 	postData(tempURL, user, callback, postType);
 }
 
@@ -93,10 +93,10 @@ function addUserRow(user){
 	if (contentTable === null){
 		contentTable= $('#tblUsers')
 	}
-	
+
 	var val = tableFormat.format(user.id, user.id, user.id, user.username, user.role, user.active);
 	var div = $('#user_' + user.id);
-	
+
 	if( div.length){
 		div.html(val);
 	} else {

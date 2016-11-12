@@ -10,6 +10,8 @@ tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width
 '<div class="floatLeft" style="width:30%; min-width:100px; height:30px;"><span class="hidden">Location:</span>{5}</div>' +
 '<div class="floatLeft" style="width:10%; min-width:50px; height:30px;"><span class="hidden">Active:</span>{6}</div></div>';
 
+currentURL = CLOCK_URL;
+
 function getClocks(data){
 	clockList=data;
 	if(clockList === null){

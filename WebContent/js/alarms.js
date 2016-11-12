@@ -4,13 +4,15 @@ validateUser();
 contentTable = null;
 exceptionFunction = null;
 clockList = null;
+currentURL = ALARMS_URL;
 
 tableFormat='<div id="al_{0}"><div class="floatLeft" style="width:10%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteAlarm({2})"/></div>' +
 '<div class="floatLeft" style="width:25%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
 '<div class="floatLeft" style="width:25%; min-width:100px; height:30px;"><span class="hidden">Clock(s):</span>{4}</div>' +
 '<div class="floatLeft" style="width:15%; min-width:100px; height:30px;"><span class="hidden">Arrival Time:</span>{5}</div>' +
-'<div class="floatLeft" style="width:25%; min-width:50px; height:30px;"><span class="hidden">Schedule:</span>{6}</div></div>' ;
+'<div class="floatLeft" style="width:20%; min-width:50px; height:30px;"><span class="hidden">Schedule:</span>{6}</div></div>' +
+'<div class="floatLeft" style="width:15%; min-width:25px;"><span class="hidden">Trigger Time</span>{7}</div>' ;
 
 var factorAccessTable = '<div id="fac_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleFactorOption(\'{1}\', false)"/></div>' +
@@ -52,7 +54,7 @@ editFunction = function(id){
       for(var i = 0; i< obj.schedule.days.length; ++i){
         $('#cb' + obj.schedule.days[i]).prop('checked', true);
       }
-      $('#cbRepeat').prop('checked', obj.schedule.repeat);
+      //$('#cbRepeat').prop('checked', obj.schedule.repeat);
 
       //TODO repeat interval??
 
@@ -104,32 +106,42 @@ function saveUser(){
   }
 
   var factors = [];
-  var rpt = $('#cbRepeat').is(':checked');
+  //var rpt = $('#cbRepeat').is(':checked');
   var rid = null;
   var arrivalTime = $('#txtArrivalTime').val();
   var leadTime = $('#txtLead').val();
   var sound = $('#cbSound').val();
   var factorsSelected = $('#cbFactors').find('option[disabled]');
-
+	var active = $('#cbActive').is(':checked');
+	var clock = $('#cbClocks').val();
   for(var i=0; i<factorsSelected.length; ++i){
     factors.push(factorsSelected[i].value);
   }
 
+
 	var alarm = {
-    "clockId": 1,
+    "clockId": clock,
     "triggerTime": null,
     "name": name,
     "destination": destination,
     "schedule": {
       "days": days,
-      "repeat": rpt,
+      //"repeat": rpt,
       "repeatIntervalDays": rid
     },
     "arrivalTime": arrivalTime,
     "leadTimeMinutes": leadTime,
     "sound": sound,
-    "factors": factors
+    "factors": factors,
+		"active": active
 	};
+
+	var message = validateData(alarm);
+
+	if(message.length > 0 ){
+		alert(message);
+		return;
+	}
 
   console.log(JSON.stringify(alarm));
   //return;
@@ -182,8 +194,15 @@ generateRow = function(alarm){
   var clock = getClockIndex(alarm.clockId);
   //TODO add support for multiple clocks
   clocks = clockList[clock].name;
+	var date;
+	var time;
 
-	var val = tableFormat.format(alarm.id, alarm.id, alarm.id, alarm.name, clocks, alarm.arrivalTime, days);
+	if(alarm.triggerTime !== null){
+		date = new Date(alarm.triggerTime);
+		time = date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+	}
+
+	var val = tableFormat.format(alarm.id, alarm.id, alarm.id, alarm.name, clocks, alarm.arrivalTime, days, time);
 	var div = $('#al_' + alarm.id);
 
 	if( div.length){
@@ -216,6 +235,33 @@ function toggleFactorOption(id, toggle){
 		$('#fac_'+id).remove();
 		ddl.find('option[value='+id+']').prop('disabled', toggle);
 	}
+}
+
+validateData = function(data){
+	var time = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+	var digits = /^[0-9]*$/;
+	var message = '';
+
+	if(time.test(data.arrivalTime) === false) {
+		message += 'Please enter a valid arrival time. <br/>';
+	}
+
+	if(data.name === null || data.name === ''){
+		message += 'Please enter a valid name. <br/>';
+	}
+
+	if(data.destination === null || data.destination === '') {
+		message += 'Please enter a valid destination. <br/>';
+	}
+
+	if(digits.test(data.leadTimeMinutes) === false){
+		message += 'Please enter a valid lead time. <br/>';
+	}
+
+	if(data.clockId === '-1') {
+		message += 'Please select a valid clock. <br/>';
+	}
+	return message;
 }
 
 $(document).ready(function() {

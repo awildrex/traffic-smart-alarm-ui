@@ -24,9 +24,11 @@ var currentURL = null;
 var editFunction = null;
 var deleteFunction = null;
 var saveFunction = null;
+var validateData = null;
 var generateRow = null;
 var getFuntion	 = null;
 var exceptionFunction = null;
+var authenticated = false;
 
 
 //global lists
@@ -36,9 +38,8 @@ var clockList = [];
 var alarmsList = [];
 
 
-
 function loadPage(url){
-	$('#menu').addClass('hidden');
+	//$('#menu').addClass('hidden');
 	$.get(url, function(data, status){
 	    //alert("Data: " + data + "\nStatus: " + status);
 	    $("#content").html(data);
@@ -218,6 +219,15 @@ function setCookie(cname, cvalue, exMinutes) {
 function validateUser(){
 
 	var val = getCookie('creds');
+
+	if(currentUser !== null && currentUser.role === 'USER' &&
+		( currentURL === CLOCK_ACCESS_URL || currentURL === CLOCK_URL ||
+			currentURL === USER_URL) ) {
+					console.log('sup');
+					loadPage('./partials/403.html');
+					return;
+	}
+
 	if( val !== null ) {
 		var url = API_BASE_URL + CUR_USER_URL;
 		console.log(url);
@@ -232,8 +242,22 @@ function validateUser(){
 			console.log('here');
 			currentUser = data;
 			setCookie('creds', val, 20);
-			$('#icon').removeClass('hidden');
-			$('#lbLogoff').removeClass('hidden');
+			if(authenticated === false){
+				$('#menu').removeClass('hidden');
+				$('#lbLogoff').removeClass('hidden');
+				var menuURL = './partials/userMenu.html';
+				if(currentUser.role === 'ADMIN') {
+					menuURL = './partials/menu.html';
+				}
+
+				$.get(menuURL, function(data, status){
+						//alert("Data: " + data + "\nStatus: " + status);
+						$("#menu").html(data);
+				});
+
+				authenticated = true;
+				$("#content").html('');
+			}
 		}).fail(function(data){
 			alert(data.status);
 			//errorCallback(thing);
@@ -242,6 +266,7 @@ function validateUser(){
 				alert('Invalid login');
 				if (currentURL !== null ){
 					loadPage('./partials/login.html');
+					authenticated = false;
 				} else {
 					exceptionFunction();
 				}
@@ -251,9 +276,14 @@ function validateUser(){
 		});
 	} else {
 		loadPage('./partials/login.html');
+			authenticated = false;
 	}
 }
 
 $(document).ready(function() {
 	validateUser();
 });
+
+function showErrorMessage(message){
+
+}
