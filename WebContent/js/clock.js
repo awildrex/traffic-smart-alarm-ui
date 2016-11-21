@@ -63,6 +63,7 @@ function saveClock(){
 	var description = $('#txtDescription').val();
 	var location = $('#txtLocation').val();
 	var active = $('#cbActive').is(':checked');
+	var messages = [];
 
 	var clock = {
 		"name": name,
@@ -70,6 +71,13 @@ function saveClock(){
 		"location": location,
 		"active": active
 	};
+
+	messages = validateData(clock);
+
+	if(messages.length > 0 ){
+		showErrorMessage(messages);
+		return;
+	}
 
 	var postType = false;
 	var tempURL = CLOCK_URL;
@@ -109,6 +117,19 @@ function addClockRow(obj){
 		contentTable.append(val);
 	}
 }
+
+validateData = function(data){
+	var messages = [];
+	if(data.name === undefined || data.name.trim() === '') {
+		messages.push('Please enter a valid name.');
+	}
+
+	if(data.location === undefined || data.location.trim() === ''){
+		messages.push('Please enter a valid location');
+	}
+
+	return messages;
+};
 
 $(document).ready(function() {
 		getData(CLOCK_URL, getClocks);

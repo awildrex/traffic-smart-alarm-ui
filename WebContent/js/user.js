@@ -55,8 +55,10 @@ function deleteUser(id){
 function saveUser(){
 	var username = $('#txtUserName').val();
 	var password = $('#txtPassword').val();
+	var password2 = $('#txtPassword1').val();
 	var role = $('#cmbRole').val();
 	var active = $('#cbActive').is(':checked');
+	var message = [];
 
 	var user = {
 		"username": username,
@@ -64,6 +66,18 @@ function saveUser(){
 		"role": role,
 		"active": active
 	};
+
+	message = validateData(user);
+
+	if(password.length > 0 && password !== password2) {
+		message.push('Passwords do not match');
+	}
+
+
+	if(message.length > 0 ){
+		showErrorMessage(message);
+		return;
+	}
 
 	var tempURL = USER_URL;
 	var postType = false;
@@ -104,6 +118,23 @@ function addUserRow(user){
 	}
 }
 
+validateData = function(data){
+	var messages = [];
+
+	if(data.username === undefined || data.username.trim() === '') {
+		messages.push('Please enter a valid username.');
+	}
+
+	if(editRowNum === null && (data.password !== undefined || data.password.trim() === '')){
+		messages.push('Please enter a valid password.');
+	}
+
+	if(data.role === undefined || data.role === '-1' || data.role === null) {
+		messages.push('Please select a valid user role.');
+	}
+
+	return messages;
+}
 
 $(document).ready(function() {
 	validateUser();

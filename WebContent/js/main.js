@@ -41,7 +41,6 @@ var alarmsList = [];
 function loadPage(url){
 	//$('#menu').addClass('hidden');
 	$.get(url, function(data, status){
-	    //alert("Data: " + data + "\nStatus: " + status);
 	    $("#content").html(data);
 	});
 }
@@ -53,12 +52,11 @@ function getData(url, callback) {
 		loadPage('./partials/login.html');
 		return;
 	}
-	console.log(val);
 
 	if(!url.startsWith("http")) {
 		url = API_BASE_URL + url;
 	}
-	console.log(url);
+
 	$.ajax({
 		  url: url,
 		  type: 'GET',
@@ -66,10 +64,8 @@ function getData(url, callback) {
 		  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
 		}).done(function(data){
-			//alert(data);
 			callback(data);
 		}).fail(function(thing){
-			//alert(thing);
 			errorCallback(thing);
 		});
 }
@@ -92,10 +88,8 @@ function deleteData(url, callback){
 		  	xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
 		}).done(function(){
-			//alert(data);
 			callback();
 		}).fail(function(thing){
-			//alert(thing);
 			errorCallback(thing);
 		});
 }
@@ -128,10 +122,8 @@ function postData(url, data, callback, put){
 	  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		}
 	}).done(function(data){
-			//alert(data);
 			callback(data);
 		}).fail(function(thing){
-			//alert(thing);
 			errorCallback(thing);
 		});
 }
@@ -143,10 +135,21 @@ function cancelSave(){
 }
 
 function errorCallback(req){
+	var messages = [];
+
+	if(req.status === 400){
+		messages.push('Invalid data sent to server.')
+	} else if (req.status === 500){
+		messages.push('An unknown error occuried, please wait and try again.');
+	}
+
+	if(messages.length > 0){
+		showErrorMessage(messages);
+	}
+
 	if(exceptionFunction !== null) {
 		exceptionFunction(req);
 	}
-	alert(req.responseText);
 }
 
 function getAlarmIndex(id){
@@ -223,14 +226,12 @@ function validateUser(){
 	if(currentUser !== null && currentUser.role === 'USER' &&
 		( currentURL === CLOCK_ACCESS_URL || currentURL === CLOCK_URL ||
 			currentURL === USER_URL) ) {
-					console.log('sup');
 					loadPage('./partials/403.html');
 					return;
 	}
 
 	if( val !== null ) {
 		var url = API_BASE_URL + CUR_USER_URL;
-		console.log(url);
 		$.ajax({
 		  url: url,
 		  type: 'GET',
@@ -239,7 +240,6 @@ function validateUser(){
 		  		xhr.setRequestHeader("Authorization",'Basic ' + val);
 		  }
 		}).done(function(data){
-			console.log('here');
 			currentUser = data;
 			setCookie('creds', val, 20);
 			if(authenticated === false){
@@ -249,9 +249,7 @@ function validateUser(){
 				if(currentUser.role === 'ADMIN') {
 					menuURL = './partials/menu.html';
 				}
-
 				$.get(menuURL, function(data, status){
-						//alert("Data: " + data + "\nStatus: " + status);
 						$("#menu").html(data);
 				});
 
@@ -259,11 +257,8 @@ function validateUser(){
 				$("#content").html('');
 			}
 		}).fail(function(data){
-			alert(data.status);
-			//errorCallback(thing);
-
 			if(data.status === 403 ){
-				alert('Invalid login');
+				showErrorMessage('Invalid username or password');
 				if (currentURL !== null ){
 					loadPage('./partials/login.html');
 					authenticated = false;
@@ -272,6 +267,11 @@ function validateUser(){
 				}
 				//invalidate cookie
 				setCookie('creds', null, -1);
+			} else {
+				showErrorMessage('An unknown error occuried, please wait and try again.');
+				setCookie('creds', null, -1);
+
+				return;
 			}
 		});
 	} else {
@@ -285,5 +285,33 @@ $(document).ready(function() {
 });
 
 function showErrorMessage(message){
+	var temp = [];
+	var i=0;
+	var html ='';
+	var template='<span>{0}</span><br/>';
 
+	if (typeof message === 'string') {
+		temp.push(message);
+	} else {
+		temp = message;
+	}
+
+	for(; i<temp.length; ++i){
+		html += template.format(temp[i]);
+	}
+
+	$('#dvMessage').empty();
+	$('#dvMessage').append(html);
+
+	toggleLightBox(true);
+}
+
+function toggleLightBox(toggle){
+	if(toggle === true){
+		$('#dvErrors').show();
+		$('#mask').show();
+	} else {
+		$('#dvErrors').hide();
+		$('#mask').hide();
+	}
 }

@@ -118,7 +118,6 @@ function saveUser(){
     factors.push(factorsSelected[i].value);
   }
 
-
 	var alarm = {
     "clockId": clock,
     "triggerTime": null,
@@ -132,19 +131,17 @@ function saveUser(){
     "arrivalTime": arrivalTime,
     "leadTimeMinutes": leadTime,
     "sound": sound,
-    "factors": factors,
+    "factors": ['TRAFFIC'],
 		"active": active
 	};
 
-	var message = validateData(alarm);
+	var messages = validateData(alarm);
 
-	if(message.length > 0 ){
-		alert(message);
+	if(messages.length > 0 ){
+		showErrorMessage(messages);
 		return;
 	}
 
-  console.log(JSON.stringify(alarm));
-  //return;
 	var tempURL = ALARMS_URL;
 	var postType = false;
 	if(editRowNum !== null){
@@ -240,29 +237,29 @@ function toggleFactorOption(id, toggle){
 validateData = function(data){
 	var time = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 	var digits = /^[0-9]*$/;
-	var message = '';
+	var message = [];
 
 	if(time.test(data.arrivalTime) === false) {
-		message += 'Please enter a valid arrival time. <br/>';
+		message.push('Please enter a valid arrival time.');
 	}
 
 	if(data.name === null || data.name === ''){
-		message += 'Please enter a valid name. <br/>';
+		message.push('Please enter a valid name.');
 	}
 
 	if(data.destination === null || data.destination === '') {
-		message += 'Please enter a valid destination. <br/>';
+		message.push('Please enter a valid destination.');
 	}
 
 	if(digits.test(data.leadTimeMinutes) === false){
-		message += 'Please enter a valid lead time. <br/>';
+		message.push('Please enter a valid lead time.');
 	}
 
 	if(data.clockId === '-1') {
-		message += 'Please select a valid clock. <br/>';
+		message.push('Please select a valid clock.');
 	}
 	return message;
-}
+};
 
 $(document).ready(function() {
 	getData(CLOCK_URL, AlarmsClockCallback);

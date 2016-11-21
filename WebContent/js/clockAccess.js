@@ -102,9 +102,7 @@ saveFunction = function(){
 		userIDs.push(parseInt(usersSelected[i].value));
 	}
 
-
 	if(editRowNum !== null){
-		//tempURL += '/' + clockAccessList[editRowNum].id;
 		clockID = clockAccessList[editRowNum].clockId;
 	} else {
 		clockID = parseInt($('#cbClocks').val());
