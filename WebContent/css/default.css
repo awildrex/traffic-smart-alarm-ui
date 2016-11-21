@@ -143,12 +143,6 @@ html{
 	cursor:pointer;
 }
 
-
-#weatherIcon{
-
-}
-
-
 .inputSpan {
 	font-size:1rem;
 }
@@ -218,4 +212,36 @@ html{
 .tableContent div span{
     display:inline;
 }
+}
+
+
+.lightbox {
+    background:#fff;
+    text-align:left;
+    /*border:1px solid #b5b5b7;*/
+    z-index: 9999;
+    display: none;
+    position: fixed;
+    top:0px;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 10%;
+		background-color:#252839;
+		color:#b5b5b7;
+		box-shadow: 3px 3px 2px #b5b5b7;
+		border-radius: 10px;
+		border-top-left-radius: 0;
+}
+
+.mask {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity: 0.50;
+    filter: alpha(opacity=50);
+    background-color: #000;
+    z-index: 9998;
+    display: none;
 }
