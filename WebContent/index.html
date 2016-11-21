@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="./css/default.css"/>
+<link rel="stylesheet" type="text/css" href="./css/temp.css"/>
 </head>
 <body>
 
@@ -23,9 +24,16 @@
   	</div>
 	<div id="content">
 	</div>
-	<div class="lightbox-target" id="dvErrors">
-   	<a class="lightbox-close" href="#"></a>
+	<div class="lightbox" id="dvErrors">
+   	<div class="floatRight" style="margin-right:10px; margin-top:10px;"><span class="UIButton" href="#" onclick="toggleLightBox(false);">close</span></div>
+		<br/>
+		<div style="padding:20px;">
+			<span>Please correct the following error(s):</span>
+			<div id="dvMessage" style="padding:10px;"></div>
+		</div>
 	</div>
+	<div id="mask" class="mask"></div>
+
 	<script type="text/javascript" src="./js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="./js/main.js"></script>
 </body>
