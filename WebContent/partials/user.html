@@ -11,7 +11,7 @@
 	    <div class="floatLeft" style="width:10%; min-width:50px">Active</div>
 		</div>
 		<div id="tblUsers" class="tableContent">
-	    
+
 		</div>
 </div>
 
@@ -22,27 +22,29 @@
 	<div style="width:100%;">
 		<span class="inputSpan">Password:</span> <input type="password" id="txtPassword" class="inputSpan"/><br/>
 	</div>
-	
-	
+  <div style="width:100%;">
+    <span class="inputSpan">Confirm Password:</span> <input type="password" id="txtPassword1" class="inputSpan"/><br/>
+  </div>
+
 	<div style="width:100%;">
-	<span class="inputSpan" class="margin-left:25%">Role:</span> 
+	<span class="inputSpan" class="margin-left:25%">Role:</span>
 	<select id="cmbRole">
-		<option>Select One</option>
+		<option value="-1">Select One</option>
 		<option value="USER">User</option>
 		<option value="ADMIN">Admin</option>
 	</select>
 	<br/>
 	</div>
-	
+
 	<div style="width:100%;">
 	<span class="inputSpan">Active:</span> <input type="checkbox" id="cbActive" class="inputSpan"> <br/>
 	</div>
-	
+
 	<div style="width:100%;">
 		<div class="floatLeft UIButton" onclick="saveUser();">Save</div> <div style="margin-left: 10px;"class="floatLeft UIButton" onclick="cancelSave();">Cancel</div>
 	</div>
 </div>
-<br/>	
+<br/>
 <br/>
 <div>
 	<span onclick="editUser(null);" class="UIButton" id="btnAdd">Add User</span>
