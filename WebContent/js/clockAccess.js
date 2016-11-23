@@ -13,7 +13,7 @@ tableFormat = '<div id="ca_{0}"><div class="floatLeft" style="width:15%; min-wid
 			  '<div class="floatLeft" style="width:40%; min-width:50px; height:30px;">{2}</div>' +
     		  '<div class="floatLeft" style="width:45%; min-width:50px; height:30px;">{3}</div></div>';
 
-var usersAccessTable = '<div id="user_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
+var usersAccessTable = '<div id="user_{0}" style="height:30px;"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleUserOption({1}, false)"/></div>' +
 					   '<div class="floatLeft" style="width:85%; min-width:50px; height:30px;"><span style="height:30px;">{2}<span></div>' +
 					   '</div>';
@@ -63,7 +63,7 @@ editFunction = function(rowNum){
 	$('#curUsers').empty();
 	if(rowNum !== null ){
 		editRowNum = getClockAccessIndex(rowNum);
-		console.log(editRowNum);
+
 		if(editRowNum > -1) {
 			$('#cbClocks').val(clockAccessList[editRowNum].clockId);
 			var clockID = getClockIndex(clockAccessList[editRowNum].clockId);
@@ -142,7 +142,6 @@ generateRow = function(clockAccess){
 	if( clockIndex >-1) {
 		clockname = clockList[clockIndex].name;
 	}
-	console.log(clockAccess);
 	for(var i=0; i<	clockAccess.allowedUsers.length; ++i){
 		if (usernames !== '') {
 			usernames = usernames + ', ' + getUserName(clockAccess.allowedUsers[i]);
@@ -150,9 +149,10 @@ generateRow = function(clockAccess){
 			usernames = getUserName(clockAccess.allowedUsers[i]);
 		}
 	}
-	var val = tableFormat.format(clockAccess.id, clockAccess.id, clockname, usernames);
+	var val = tableFormat.format(clockAccess.clockId, clockAccess.clockId, clockname, usernames);
 
-	var div = $('#ca_' + clockAccess.id);
+
+	var div = $('#ca_' + clockAccess.clockId);
 	if( div.length){
 		div.html(val);
 	} else {

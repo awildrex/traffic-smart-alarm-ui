@@ -33,7 +33,8 @@ function editUser(id){
 		editRowNum = null;
 		$('#txtUserName').val("");
 		$('#txtPassword').val("");
-		$('#cmbRole').val("Select One");
+		$('#txtPassword1').val('');
+		$('#cmbRole').val("-1");
 		$('#cbActive').prop('checked', false);
 	}
 	$('#btnAdd').addClass('hidden');
@@ -125,7 +126,7 @@ validateData = function(data){
 		messages.push('Please enter a valid username.');
 	}
 
-	if(editRowNum === null && (data.password !== undefined || data.password.trim() === '')){
+	if(editRowNum === null && (data.password !== undefined && data.password.trim() === '')){
 		messages.push('Please enter a valid password.');
 	}
 

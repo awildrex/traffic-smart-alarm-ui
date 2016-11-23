@@ -3,7 +3,7 @@ validateUser();
 
 contentTable = null;
 exceptionFunction = null;
-tableFormat='<div id="cl_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editClock({1})"/>' +
+tableFormat='<div id="cl_{0}" style="height:30px;"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editClock({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteClock({2})"/></div>' +
 '<div class="floatLeft" style="width:15%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
 '<div class="floatLeft" style="width:30%; min-width:100px; height:30px;"><span class="hidden">Description:</span>{4}</div>' +

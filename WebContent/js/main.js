@@ -181,7 +181,7 @@ function getClockIndex(id){
 
 function getClockAccessIndex(id){
 	for(var i=0; i<clockAccessList.length; ++i){
-		if(clockAccessList[i].id == id){
+		if(clockAccessList[i].clockId == id){
 			return i;
 		}
 	}
