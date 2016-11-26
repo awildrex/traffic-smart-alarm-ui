@@ -6,13 +6,13 @@ exceptionFunction = null;
 clockList = null;
 currentURL = ALARMS_URL;
 
-tableFormat='<div id="al_{0}" style="height:30px;"><div class="floatLeft" style="width:10%; min-width:25px; height:30px;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
+tableFormat='<div id="al_{0}" style="position:relative;"><div class="inline" style="width:10%; min-width:25px;  vertical-align: middle;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteAlarm({2})"/></div>' +
-'<div class="floatLeft" style="width:15%; min-width:50px; height:30px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
-'<div class="floatLeft" style="width:25%; min-width:100px; height:30px;"><span class="hidden">Clock(s):</span>{4}</div>' +
-'<div class="floatLeft" style="width:15%; min-width:100px; height:30px;"><span class="hidden">Arrival Time:</span>{5}</div>' +
-'<div class="floatLeft" style="width:20%; min-width:50px; height:30px;"><span class="hidden">Schedule:</span>{6}</div>' +
-'<div class="floatLeft" style="width:15%; min-width:25px;"><span class="hidden">Trigger Time</span>{7}</div></div>' ;
+'<div class="inline" style="width:15%; min-width:50px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
+'<div class="inline" style="width:25%; min-width:100px;"><span class="hidden">Clock(s):</span>{4}</div>' +
+'<div class="inline" style="width:15%; min-width:100px;"><span class="hidden">Arrival Time:</span>{5}</div>' +
+'<div class="inline" style="width:20%; min-width:50px;"><span class="hidden">Schedule:</span>{6}</div>' +
+'<div class="inline" style="width:15%; min-width:25px;"><span class="hidden">Trigger Time</span>{7}</div></div>' ;
 
 var factorAccessTable = '<div id="fac_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleFactorOption(\'{1}\', false)"/></div>' +

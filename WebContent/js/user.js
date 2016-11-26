@@ -137,6 +137,10 @@ validateData = function(data){
 	return messages;
 }
 
+exceptionFunction = function(req) {
+
+};
+
 $(document).ready(function() {
 	validateUser();
 	getData(USER_URL, getFuntion);

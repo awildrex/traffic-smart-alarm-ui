@@ -137,10 +137,10 @@ function cancelSave(){
 function errorCallback(req){
 	var messages = [];
 
-	if(req.status === 400){
-		messages.push('Invalid data sent to server.')
-	} else if (req.status === 500){
+	if(req.status === 500){
 		messages.push('An unknown error occuried, please wait and try again.');
+	} else if (req.status >= 400){
+		messages.push(req.responseJSON.message);
 	}
 
 	if(messages.length > 0){
@@ -241,7 +241,7 @@ function validateUser(){
 		  }
 		}).done(function(data){
 			currentUser = data;
-			setCookie('creds', val, 20);
+			setCookie('creds', val, 1);
 			if(authenticated === false){
 				$('#menu').removeClass('hidden');
 				$('#lbLogoff').removeClass('hidden');
@@ -277,6 +277,9 @@ function validateUser(){
 	} else {
 		loadPage('./partials/login.html');
 			authenticated = false;
+			$("#menu").html('');
+			$('#lbLogoff').addClass('hidden');
+
 	}
 }
 
