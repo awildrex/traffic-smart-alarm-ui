@@ -245,3 +245,8 @@ html{
     z-index: 9998;
     display: none;
 }
+
+.inline{
+	display:inline-block;
+	vertical-align: middle;
+}
