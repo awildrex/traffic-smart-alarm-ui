@@ -241,7 +241,7 @@ function validateUser(){
 		  }
 		}).done(function(data){
 			currentUser = data;
-			setCookie('creds', val, 1);
+			setCookie('creds', val, 20);
 			if(authenticated === false){
 				$('#menu').removeClass('hidden');
 				$('#lbLogoff').removeClass('hidden');
