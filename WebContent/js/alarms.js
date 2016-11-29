@@ -9,10 +9,10 @@ currentURL = ALARMS_URL;
 tableFormat='<div id="al_{0}" style="position:relative;"><div class="inline" style="width:10%; min-width:25px;  vertical-align: middle;"><img class="button" src="./images/edit1.png" onclick="editFunction({1})"/>' +
 '<img class="button" src="./images/delete1.png" onclick="deleteAlarm({2})"/></div>' +
 '<div class="inline" style="width:15%; min-width:50px;"><span class="hidden floatleft" style="white-space:nowrap;">Name:</span> {3}</div>' +
-'<div class="inline" style="width:25%; min-width:100px;"><span class="hidden">Clock(s):</span>{4}</div>' +
-'<div class="inline" style="width:15%; min-width:100px;"><span class="hidden">Arrival Time:</span>{5}</div>' +
-'<div class="inline" style="width:20%; min-width:50px;"><span class="hidden">Schedule:</span>{6}</div>' +
-'<div class="inline" style="width:15%; min-width:25px;"><span class="hidden">Trigger Time</span>{7}</div></div>' ;
+'<div class="inline" style="width:15%; min-width:100px;"><span class="hidden">Clock(s):</span>{4}</div>' +
+'<div class="inline" style="width:12%; min-width:100px;"><span class="hidden">Arrival Time:</span>{5}</div>' +
+'<div class="inline" style="width:28%; min-width:50px;"><span class="hidden">Schedule:</span>{6}</div>' +
+'<div class="inline" style="width:20%; min-width:25px;"><span class="hidden">Trigger Time</span>{7}</div></div>' ;
 
 var factorAccessTable = '<div id="fac_{0}"><div class="floatLeft" style="width:15%; min-width:25px; height:30px;">' +
 					   '<img class="button" src="./images/delete1.png" onclick="toggleFactorOption(\'{1}\', false)"/></div>' +
@@ -107,7 +107,7 @@ function saveUser(){
 
   var factors = [];
   //var rpt = $('#cbRepeat').is(':checked');
-  var rid = null;
+  var rid = 0;
   var arrivalTime = $('#txtArrivalTime').val();
   var leadTime = $('#txtLead').val();
   var sound = $('#cbSound').val();
@@ -136,6 +136,7 @@ function saveUser(){
 		//,"active": active
 	};
 
+	console.log(JSON.stringify(alarm));
 	var messages = validateData(alarm);
 
 	if(messages.length > 0 ){
@@ -151,6 +152,7 @@ function saveUser(){
 	}
 
 	var callback = function(data){
+		console.log(JSON.stringify(data));
 		if(editRowNum !== null){
 			alarmsList[editRowNum] = data;
 
@@ -175,8 +177,9 @@ generateRow = function(alarm){
   var days = '';
   var clocks = '';
   var counter = 0;
+	console.log(JSON.stringify(alarm));
 
-  if(alarm.schedule.days.length !== 7) {
+	if(alarm.schedule.days.length !== 7) {
     for(; counter < alarm.schedule.days.length;  ++counter){
       if(counter>0){
         days = days + ', ' + alarm.schedule.days[counter];
@@ -197,7 +200,17 @@ generateRow = function(alarm){
 
 	if(alarm.triggerTime !== null){
 		date = new Date(alarm.triggerTime);
-		time = date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes();
+		var mon = date.getMonth() + 1; // getMonth() is zero-based
+ 		var dd = date.getDate();
+		var hh = date.getHours();
+		var mm = date.getMinutes();
+
+		mon = (mon>9 ? '' : '0') + mon;
+		dd = (dd>9 ? '' : '0') + dd;
+		hh = (hh>9 ? '' : '0') + hh;
+		mm = (mm>9 ? '' : '0') + mm;
+		time = mon + '/' + dd + '/' + date.getFullYear() + ' ' +
+						hh + ':' + mm;
 	}
 
 	var val = tableFormat.format(alarm.id, alarm.id, alarm.id, alarm.name, clocks, alarm.arrivalTime, days, time);
